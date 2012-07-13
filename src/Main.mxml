@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   minWidth="800"
+			   minHeight="600">
+
+	<fx:Script>
+		<![CDATA[
+			import X86Loader;
+			
+			private function logger(text:String):void
+			{
+				log.appendText(text + "\n");
+			}
+			
+			private function changeMode(mode:uint):void
+			{
+				switch (mode)
+				{
+					case X86LoaderMode.NO_LOADED:
+						currentState = "wait";
+						break;
+					case X86LoaderMode.NO_INITIALIZED:
+						currentState = "load";
+						break;
+					case X86LoaderMode.EXECUTING:
+						currentState = "exec";
+						break;
+					case X86LoaderMode.END_MEMORY:
+						currentState = "end";
+						break;
+					default:
+						logger("[INFO] Unknown return code.");
+				}
+			}
+			private var sys:X86Loader = new X86Loader(changeMode, logger);
+		]]>
+	</fx:Script>
+
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		.logStyle {
+			fontFamily: "_typewriter";
+			fontSize: 18;
+		}
+	</fx:Style>
+	
+	<s:states>
+		<s:State name="wait"
+				 enterState="logger('[INFO] Initialized memory/registers.')" />
+		<s:State name="load"
+				 enterState="logger('[INFO] Loaded x86 codes.')" />
+		<s:State name="exec"
+				 enterState="logger('[INFO] X86 Emulator is Executable.')" />
+		<s:State name="end"
+				 enterState="logger('[INFO] End memory.')" />
+	</s:states>
+
+	<s:VGroup>
+		<s:TextArea id="log"
+					height="400"
+					width="800"
+					editable="false"
+					styleName="logStyle" />
+		<s:TextInput id="file"
+					 text="http://u.cyba-net.co.cc/sabamotto/x86e/"
+					 width="800"
+					 height="24" />
+		<s:HGroup>
+			<s:Button id="loadBtn"
+					  label="Load by URI"
+					  enabled="false"
+					  enabled.wait="true"
+					  click="sys.load(file.text)" />
+			<s:Button id="loadLBtn"
+					  label="Load by Local"
+					  enabled="false"
+					  enabled.wait="true"
+					  click="sys.loadLocal()" />
+			<s:Button id="unloadBtn"
+					  label="Unload"
+					  enabled="true"
+					  enabled.wait="false"
+					  click="sys.unload()" />
+		</s:HGroup>
+		<s:HGroup>
+			<s:Button id="initBtn"
+					  label="Init."
+					  enabled="true"
+					  enabled.wait="false"
+					  click="sys.init()" />
+			<s:Button id="stepBtn"
+					  label="S.Execute"
+					  enabled="false"
+					  enabled.exec="true"
+					  click="sys.stepExecute()" />
+			<s:Button id="dbgBtn"
+					  label="S.Debug"
+					  enabled="false"
+					  enabled.exec="true"
+					  click="sys.stepExecute(true)" />
+			<s:Button id="dumpBtn"
+					  label="DUMP"
+					  enabled="true"
+					  enabled.wait="false"
+					  enabled.load="false"
+					  click="sys.dump()" />
+		</s:HGroup>
+		<s:HGroup>
+			<s:Button id="clearBtn"
+					  label="Clear Log"
+					  click="log.text=''" />
+		</s:HGroup>
+	</s:VGroup>
+
+	<fx:Declarations>
+		<!-- 非ビジュアルエレメント (サービス、値オブジェクトなど) をここに配置 -->
+	</fx:Declarations>
+
+</s:Application>
+
+
+
