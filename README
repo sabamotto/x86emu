@@ -1,0 +1,25 @@
+welcome to x86-emulator way!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+system requirements >>
+- Adobe Flash Player 10.5 or greater.
+- Adobe Flex SDK 3.
+- FlashDevelop 4.0.0 beta or greater.
+
+running enviroments >>
+- below is the tested operating systems...
+  * Microsoft Windows XP SP2 or greater
+  * Apple MacOS X 10.5 or greater
+  * Android 2.2 or greater with mdpi resolution
+  * (Linux kernel distributes)
+- Adobe Flash Player 10.5 or greater.
+- Web browser supported Flash Player.
+
+how to build >>
+1. open X86Emulator.as3proj with FlashDevelop.
+2. [menu] Project > Build Project (F8).
+3. complete!
+
+
+-- by sabamotto.
